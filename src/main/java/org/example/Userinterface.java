@@ -25,7 +25,7 @@ public class Userinterface {
         boolean running = true;
 
         while (running) {
-            System.out.println("\n~~ Welcome to the Car Dealership ~~");
+            System.out.println("\u001B[36m\n~~ Welcome to the Car Dealership ~~\u001B[0m");
             System.out.println("1. Find vehicles within a price range");
             System.out.println("2. Find vehicles by make/model");
             System.out.println("3. Find vehicles by year range");
@@ -70,7 +70,7 @@ public class Userinterface {
                     break;
                 case "0":
                     running = false;
-                    System.out.println("Exiting Program!");
+                    System.out.println("\u001B[31;1mExiting Program!\u001B[0m");
                     break;
                 default:
                     System.out.println("Invalid option. Please Try Again!");
@@ -204,7 +204,7 @@ public class Userinterface {
         System.out.println("----------------------------------------------------------------------------------");
 
         for (Vehicle v : vehicles) {
-            System.out.printf("%-10d %-6d %-12s %-12s %-10s %-10s %-10d $%-9.2f\n",
+            System.out.printf("%-10d %-6d %-12s %-12s %-10s %-10s \u001B[31;1m%-10d\u001B[0m \u001B[32;1m$%-9.2f\n\u001B[0m",
                     v.getVin(),
                     v.getYear(),
                     v.getMake(),
