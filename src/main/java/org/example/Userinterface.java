@@ -61,6 +61,7 @@ public class Userinterface {
                     break;
                 case "7":
                     processAllVehiclesRequest();
+                    break;
                 case "8":
                     processAddVehicleRequest();
                     break;
@@ -84,6 +85,7 @@ public class Userinterface {
         double max = scanner.nextDouble();
         scanner.nextLine();
         List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max); // Come back to this!!!
+        displayVehicles(vehicles);
     }
 
     public void processGetByMakeModelRequest() {
@@ -93,6 +95,7 @@ public class Userinterface {
         String model = scanner.nextLine();
 
         List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model); // Come back to this!!!
+        displayVehicles(vehicles);
     }
 
     public void processGetByYearRequest() {
@@ -103,6 +106,7 @@ public class Userinterface {
         scanner.nextLine();
 
         List<Vehicle> vehicles = dealership.getVehiclesByYear((int) min, (int) max);
+        displayVehicles(vehicles);
     }
 
     public void processGetByColorRequest() {
@@ -110,6 +114,7 @@ public class Userinterface {
         String color = scanner.nextLine();
 
         List<Vehicle> vehicles = dealership.getVehiclesByColor(color); // Come back to this!!!
+        displayVehicles(vehicles);
 
     }
 
@@ -120,13 +125,15 @@ public class Userinterface {
         double max = scanner.nextDouble();
         scanner.nextLine();
         List<Vehicle> vehicles = dealership.getVehiclesByMileage((int) min, (int) max); // Come back to this!!!
+        displayVehicles(vehicles);
     }
 
     public void processGetByVehicleTypeRequest() {
         System.out.println("Enter Vehicle Type: ");
         String type = scanner.nextLine();
 
-        List<Vehicle> vehicles = dealership.getVehiclesByType(type); // Come back to this!!!
+        List<Vehicle> vehicles = dealership.getVehiclesByType(type);
+        displayVehicles(vehicles);
     }
 
     public void processAddVehicleRequest() {
@@ -197,7 +204,7 @@ public class Userinterface {
         System.out.println("----------------------------------------------------------------------------------");
 
         for (Vehicle v : vehicles) {
-            System.out.printf("%d %d %s %s %s %s %d $%.2f\n",
+            System.out.printf("%-10d %-6d %-12s %-12s %-10s %-10s %-10d $%-9.2f\n",
                     v.getVin(),
                     v.getYear(),
                     v.getMake(),
