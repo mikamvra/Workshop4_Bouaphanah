@@ -219,4 +219,9 @@ public class Userinterface {
         List<Vehicle> inventory = this.dealership.getAllVehicles();
         displayVehicles(inventory);
     }
+    public void contractRequest(){
+        System.out.println("Enter VIN of vehicle you would like to sell/lease");
+        int vin = scanner.nextInt();
+        scanner.nextLine();
+    }
 }
