@@ -1,6 +1,12 @@
 package org.example;
 
-import javax.xml.transform.Source;
+import contract.org.ContractFileManager;
+import contract.org.Contract;
+import contract.org.LeaseContract;
+import contract.org.SaleContract;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.List;
 public class Userinterface {
@@ -223,5 +229,50 @@ public class Userinterface {
         System.out.println("Enter VIN of vehicle you would like to sell/lease");
         int vin = scanner.nextInt();
         scanner.nextLine();
+
+        Vehicle vehicle = null;
+        for (Vehicle v : dealership.getAllVehicles()){
+            if (v.getVin() == vin){
+                vehicle = v;
+                break;
+            }
+        }
+        if (vehicle == null){
+            System.out.println("\u001B[31;1mVehicle not found!\u001B[0m");
+            return;
+        }
+        System.out.println("Enter Customer Name: ");
+        String customerName = scanner.nextLine();
+
+        System.out.println("Enter Customer Email: ");
+        String customerEmail = scanner.nextLine();
+
+        System.out.println("SALE or LEASE");
+        String type = scanner.nextLine();
+
+        Contract contract = null;
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        if (type.equalsIgnoreCase("SALE")) {
+            System.out.print("Finance? ");
+            boolean finance = scanner.nextLine().equalsIgnoreCase("yes");
+
+            // THIS LINE MUST BE INSIDE THESE BRACES
+            contract = new SaleContract(today, customerName, customerEmail, vehicle, finance);
+
+        } else if ((type.equalsIgnoreCase("LEASE"))){
+            if (2026 - vehicle.getYear() > 3){
+                System.out.println("\u001B[31;1mToo old to lease!\u001B[0m");
+                return;
+            }
+            contract = new LeaseContract(today, customerName, customerEmail, vehicle);
+        }
+        if (contract != null) {
+            ContractFileManager cfm = new ContractFileManager();
+            cfm.saveContract(contract);
+
+            dealership.removeVehicle(vehicle);
+            System.out.println("\u001B[32mSuccess! Contract saved and vehicle removed.\u001B[0m");
+        }
     }
 }

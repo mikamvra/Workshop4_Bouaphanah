@@ -10,10 +10,13 @@ public class SaleContract extends Contract{
     private BigDecimal recordingFee = new BigDecimal("100.00");
     private boolean finance;
 
-    public SaleContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double totalPrice, double monthlyPayment) {
-        super(date, customerName, customerEmail, vehicleSold, totalPrice, monthlyPayment);
+    public SaleContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, boolean finance) {
+        super(date, customerName, customerEmail, vehicleSold);
         this.finance = finance;
     }
+
+
+
 
     @Override
     public double getTotalPrice() {

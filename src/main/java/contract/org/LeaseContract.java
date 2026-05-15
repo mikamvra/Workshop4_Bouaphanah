@@ -9,13 +9,15 @@ public class LeaseContract extends Contract{
     private BigDecimal expextedEndingValue;
     private BigDecimal leaseFee;
 
-    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double totalPrice, double monthlyPayment) {
-        super(date, customerName, customerEmail, vehicleSold, totalPrice, monthlyPayment);
+    public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold) {
+        // Only these 4!
+        super(date, customerName, customerEmail, vehicleSold);
+
         BigDecimal price = BigDecimal.valueOf(vehicleSold.getPrice());
         this.expextedEndingValue = price.multiply(new BigDecimal(".50"));
-        this.leaseFee = price.multiply(new BigDecimal("0.07"));
-
+        this.leaseFee = price.multiply(new BigDecimal(".07"));
     }
+
 
     @Override
     public double getTotalPrice() {
