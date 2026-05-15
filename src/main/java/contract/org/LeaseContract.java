@@ -29,7 +29,11 @@ public class LeaseContract extends Contract{
     public double getMonthlyPayment() {
         double price = getTotalPrice();
         double interestRate = .04;
-        int
-        return 0;
+        int months= 36;
+
+        double monthlyRate =  interestRate / 12;
+        double monthlyPayment = price * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -months)));
+
+        return new BigDecimal(monthlyPayment).setScale(2,RoundingMode.HALF_UP).doubleValue();
     }
 }
