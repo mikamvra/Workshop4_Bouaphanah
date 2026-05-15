@@ -226,11 +226,11 @@ public class Userinterface {
         displayVehicles(inventory);
     }
     public void contractRequest(){
-        System.out.println("Enter VIN of vehicle you would like to sell/lease");
+        System.out.println("Enter VIN of vehicle you would like to Sale/Lease");
         int vin = scanner.nextInt();
         scanner.nextLine();
 
-        Vehicle vehicle = null;
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
         for (Vehicle v : dealership.getAllVehicles()){
             if (v.getVin() == vin){
                 vehicle = v;
