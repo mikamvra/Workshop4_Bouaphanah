@@ -41,6 +41,7 @@ public class Userinterface {
             System.out.println("7. List ALL vehicles");
             System.out.println("8. Add a vehicle");
             System.out.println("9. Remove a vehicle");
+            System.out.println("10. SALE or LEASE");
             System.out.println("0. Quit");
             System.out.print("Please choose an option: ");
 
@@ -74,6 +75,8 @@ public class Userinterface {
                 case "9":
                     processRemoveVehicleRequest();
                     break;
+                case "10":
+                    contractRequest();
                 case "0":
                     running = false;
                     System.out.println("\u001B[31;1mExiting Program!\u001B[0m");
@@ -90,7 +93,7 @@ public class Userinterface {
         System.out.println("Enter Maximum: ");
         double max = scanner.nextDouble();
         scanner.nextLine();
-        List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max); // Come back to this!!!
+        List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max);
         displayVehicles(vehicles);
     }
 
@@ -100,7 +103,7 @@ public class Userinterface {
         System.out.println("Enter Model: ");
         String model = scanner.nextLine();
 
-        List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model); // Come back to this!!!
+        List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model);
         displayVehicles(vehicles);
     }
 
@@ -119,7 +122,7 @@ public class Userinterface {
         System.out.println("Enter Color: ");
         String color = scanner.nextLine();
 
-        List<Vehicle> vehicles = dealership.getVehiclesByColor(color); // Come back to this!!!
+        List<Vehicle> vehicles = dealership.getVehiclesByColor(color);
         displayVehicles(vehicles);
 
     }
@@ -130,7 +133,7 @@ public class Userinterface {
         System.out.println("Enter Maximum Mileage: ");
         double max = scanner.nextDouble();
         scanner.nextLine();
-        List<Vehicle> vehicles = dealership.getVehiclesByMileage((int) min, (int) max); // Come back to this!!!
+        List<Vehicle> vehicles = dealership.getVehiclesByMileage((int) min, (int) max);
         displayVehicles(vehicles);
     }
 
@@ -251,7 +254,7 @@ public class Userinterface {
         String type = scanner.nextLine();
 
         Contract contract = null;
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
         if (type.equalsIgnoreCase("SALE")) {
             System.out.print("Finance? ");
@@ -272,7 +275,19 @@ public class Userinterface {
             cfm.saveContract(contract);
 
             dealership.removeVehicle(vehicle);
-            System.out.println("\u001B[32mSuccess! Contract saved and vehicle removed.\u001B[0m");
+
+            System.out.println( "           OFFICIAL INVOICE             ");
+            System.out.println("========================================");
+            System.out.printf(" Date:     %s\n", contract.getDate());
+            System.out.printf(" Customer: %s\n", contract.getCustomerName());
+            System.out.printf(" Vehicle:  %d %s %s\n", vehicle.getYear(), vehicle.getMake(), vehicle.getModel());
+            System.out.println("----------------------------------------");
+
+            System.out.printf(" Total Price:     " + "\u001B[36m$%.2f\u001B[0m\n", contract.getTotalPrice());
+            System.out.printf(" Monthly Payment: "  + "\u001B[31;1m$%.2f\u001B[0m \n", contract.getMonthlyPayment());
+            System.out.println("========================================");
+
+            System.out.println("\n[+] Transaction Complete & Inventory Updated!");
         }
     }
 }
