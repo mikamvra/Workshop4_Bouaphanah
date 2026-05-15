@@ -3,6 +3,7 @@ package contract.org;
 import org.example.Vehicle;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class SaleContract extends Contract{
     private BigDecimal salesTax = new BigDecimal("0.05");
@@ -16,18 +17,41 @@ public class SaleContract extends Contract{
 
     @Override
     public double getTotalPrice() {
-        Vehicle v = getVehicleSold();
+        BigDecimal vehiclePrice = BigDecimal.valueOf(getVehicleSold().getPrice());
+
         BigDecimal processingFee;
-        if (v.getPrice() < 10000){
+        if (getVehicleSold().getPrice() < 10000){
         processingFee = new BigDecimal("295.00");
-        } else
+        } else {
             processingFee = new BigDecimal("495.00");
-        double v1 = v.getPrice() + (v.getPrice() * salesTax) + recordingFee + processingFee;
-        return v1;
+        }
+        BigDecimal taxAmount = vehiclePrice.multiply(salesTax);
+        BigDecimal total = vehiclePrice.add(taxAmount).add(recordingFee).add(processingFee);
+
+        return total.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     @Override
     public double getMonthlyPayment() {
-        return 0;
+        if (!finance) {
+            return 0.0;
+        }
+        double price = getTotalPrice();
+        double interestRate;
+        int months;
+
+        if(price >= 10000){
+            interestRate = 0.0425;
+            months = 48;
+        }else {
+            interestRate = 0.0525;
+            months = 24;
+        }
+        BigDecimal thePrice = new BigDecimal(Double.toString(price));
+        BigDecimal theMonthlyRate = new BigDecimal(Double.toString(interestRate/12));
+
+        double monthlyPayment = price * ( (interestRate / 12) /
+                (1 - Math.pow(1 + (interestRate / 12), -months)) );
+        return new BigDecimal(monthlyPayment).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 }
